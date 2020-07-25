@@ -1,6 +1,7 @@
 "use strict";
 
 const NUMERO_DIGITOS = 10; // Del 0 al 9
+let estados = [];
 
 class Ocurrencias {
     constructor() {
@@ -41,6 +42,9 @@ class Ocurrencias {
     }
 
     esIgual(otro) {
+        if (!(otro instanceof Ocurrencias)) {
+            return false;
+        }
         for (let digito in this._estado) {
             if (this._estado[digito] != otro._estado[digito]) {
                 return false;
@@ -50,18 +54,35 @@ class Ocurrencias {
     }
 }
 
-function calcularOcurrencias(estado) {
-    const siguiente = estado.contar();
-    if (siguiente.esIgual(estado)){
-        return siguiente;
+function* calcularOcurrencias(estado) {
+    let anterior = null;
+    for(;!estado.esIgual(anterior);){
+        yield estado;
+        anterior = estado;
+        estado = estado.contar();
     }
-    return calcularOcurrencias(siguiente);
+}
+
+function actualizar(ocurrencias) {
+    for (let i = 0; i < NUMERO_DIGITOS; i++){
+        const casilla = document.getElementById(String(i));
+        casilla.innerText = ocurrencias.estado[i];
+    }
 }
 
 function onclickCalcular() {
-    const final = calcularOcurrencias(new Ocurrencias());
-    for (let i = 0; i < NUMERO_DIGITOS; i++){
-        const casilla = document.getElementById(String(i));
-        casilla.innerText = final.estado[i];
+    estados = Array.from(calcularOcurrencias(new Ocurrencias()));
+    const pasoControl = document.getElementById("paso");
+    pasoControl.max = estados.length;
+    pasoControl.value = estados.length;
+    actualizar(estados[estados.length-1]);
+}
+
+function onchangePaso(){
+    if (estados.length == 0){
+        return;
     }
+    const pasoControl = document.getElementById("paso");
+    const i = pasoControl.value - 1;
+    actualizar(estados[i]);
 }
