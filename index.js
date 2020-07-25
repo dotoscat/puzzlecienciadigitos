@@ -78,11 +78,14 @@ function onclickCalcular() {
     actualizar(estados[estados.length-1]);
 }
 
-function onchangePaso(){
+function oninputPaso(){
     if (estados.length == 0){
         return;
     }
     const pasoControl = document.getElementById("paso");
+    if (pasoControl.value == "" || pasoControl.value > pasoControl.max){
+        return;
+    }
     const i = pasoControl.value - 1;
     actualizar(estados[i]);
 }
