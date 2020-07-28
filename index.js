@@ -23,10 +23,14 @@ const NUMERO_DIGITOS = 10; // Del 0 al 9
 let estados = [];
 
 class Ocurrencias {
-    constructor() {
+    constructor(...valores) {
         this._estado = {};
         for (let i = 0; i < NUMERO_DIGITOS; i++) {
-            this._estado[i] = "1";// Como mínimo el que hay como clave o índice
+            if (typeof valores[i] === "undefined"){
+                this._estado[i] = "0"// Como mínimo el que hay como clave o índice
+                continue;
+            }
+            this._estado[i] = valores[i];// Como mínimo el que hay como clave o índice
         }
     }
 
@@ -85,11 +89,31 @@ function* calcularOcurrencias(estado) {
 function actualizar(ocurrencias) {
     for (let i = 0; i < NUMERO_DIGITOS; i++){
         const casilla = document.getElementById(String(i));
-        casilla.innerText = ocurrencias.estado[i];
+        casilla.value = ocurrencias.estado[i];
     }
 }
 
-function onclickCalcular() {
+function obtenerValores() {
+    const nodos = Array.from(document.querySelectorAll("input[id^=relleno]"));
+    const valores = [];
+    for (let n of nodos) {
+        if (isNaN(n.value) || n.value == "") {
+            return null;
+        }
+        valores.push(n.value);
+    } 
+    return valores;
+}
+
+function obtenerEstadoInicial() {
+    const valores = obtenerValores();
+    if (!valores) {
+        return null;
+    }
+    return new Ocurrencias(...valores);
+}
+
+function calcular(){
     estados = Array.from(calcularOcurrencias(new Ocurrencias()));
     const pasoControl = document.getElementById("paso");
     pasoControl.max = estados.length;
@@ -107,4 +131,8 @@ function oninputPaso(){
     }
     const i = pasoControl.value - 1;
     actualizar(estados[i]);
+}
+
+function onSiguientePaso (){
+    document.getElementById("paso").stepUp();
 }
