@@ -52,8 +52,8 @@
         <p>del 7 es <input id="relleno7" type="number" min="0" id="7" size="4">,</p>
         <p>del 8 es <input id="relleno8" type="number" min="0" id="8" size="4">,</p>
         <p>y del dígito 9 es <input id="relleno9" type="number" min="0" id="9" length="4">."</p>
-        <p><label for="paso">Paso</label> <input id="paso" type="number" min="1" oninput="oninputPaso()"></p>
-        <button id="boton-siguientepaso" onchange="onSiguientePaso()">Siguiente paso</button>
+        <p><label for="paso">Paso</label> <input id="paso" type="number" min="1" oninput="oninputPaso()" disabled></p>
+        <button id="boton-siguientepaso" onclick="onSiguientePaso()" disabled>Siguiente paso</button>
         </main>
     </body>
 </html>
