@@ -88,7 +88,7 @@ function obtenerValores() {
     const nodos = Array.from(document.querySelectorAll("input[id^=relleno]"));
     const valores = [];
     for (let n of nodos) {
-        if (isNaN(n.value) || n.value == "") {
+        if (isNaN(n.value)) {
             return null;
         }
         valores.push(n.value);
@@ -107,7 +107,7 @@ function obtenerEstadoInicial() {
 function paso (estado, estados) {
     const nuevo = estado.contar();
     if (nuevo.esIgual(estado)){
-        deshabilitarControles();
+        deshabilitarSiguientePaso();
         return;
     }
     estados.push(nuevo);
