@@ -10,8 +10,11 @@
                 background-color: lavender;
                 color: #333;
             }
-            h1 {
+            h1, footer {
                 text-align: center;
+            }
+            footer {
+                margin-top: 1rem;
             }
             main {
                 text-align: center;
@@ -39,7 +42,7 @@
         </style>
     </head>
     <body>
-        <h1><a href="https://twitter.com/ApuntesCiencia/status/1286790955077705731">Puzzle ciencia dígitos</a></h1>
+        <h1><a href="https://twitter.com/ApuntesCiencia/status/1286790955077705731">Puzzle ciencia dígitos 2.0</a></h1>
         <main>
         <p>"En está frase, el número de ocurrencias 
             del dígito 0 es <input id="relleno0" type="number" min="0" id="0" size="4">,</p>
@@ -55,5 +58,8 @@
         <p><label for="paso">Paso</label> <input id="paso" type="number" min="1" oninput="oninputPaso()" disabled></p>
         <button id="boton-siguientepaso" onclick="onSiguientePaso()">Siguiente paso</button>
         </main>
+        <footer>
+            <small>Hecho por <a href="https://dotoscat.github.io">Óscar Triano García</a></small>
+        </footer>
     </body>
 </html>
