@@ -125,6 +125,7 @@ function iniciar() {
     estados.push(estadoInicial);
     const pasoControl = document.getElementById("paso");
     pasoControl.value = 1;
+    pasoControl.max = 1;
     actualizar(estados[0]);
     habilitarControles();
     if (estados[0].seAcabo()){
@@ -167,7 +168,7 @@ function onSiguientePaso (){
     const pasoControl = document.getElementById("paso");
     pasoControl.value = estados.length;
     oninputPaso();
-    if (ultimoEstado.seAcabo()){
+    if (estados[estados.length-1].seAcabo()){
         deshabilitarSiguientePaso();
     }
 }
