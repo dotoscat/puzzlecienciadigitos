@@ -75,6 +75,10 @@ class Ocurrencias {
         }
         return true;
     }
+
+    seAcabo(){
+        return this.contar().esIgual(this);
+    }
 }
 
 function actualizar(ocurrencias) {
@@ -106,28 +110,27 @@ function obtenerEstadoInicial() {
 
 function paso (estado, estados) {
     const nuevo = estado.contar();
-    if (nuevo.esIgual(estado)){
-        deshabilitarSiguientePaso();
-        return;
-    }
     estados.push(nuevo);
     const pasoControl = document.getElementById("paso");
     pasoControl.max = estados.length;
 }
 
-function onCalcular(){
+function iniciar() {
     const estadoInicial = obtenerEstadoInicial();
     estados = [];
     if (!estadoInicial){
         deshabilitarControles();
-        return;
+        return false;
     }
     estados.push(estadoInicial);
     const pasoControl = document.getElementById("paso");
-    paso(estadoInicial, estados);
     pasoControl.value = 1;
     actualizar(estados[0]);
     habilitarControles();
+    if (estados[0].seAcabo()){
+        deshabilitarControles();
+    }
+    return true;
 }
 
 function oninputPaso(){
@@ -154,7 +157,7 @@ function deshabilitarControles() {
 }
 
 function deshabilitarSiguientePaso(){
-    document.getElementById("paso").disabled = true;
+    document.getElementById("boton-siguientepaso").disabled = true;
 }
 
 function onSiguientePaso (){
@@ -162,12 +165,17 @@ function onSiguientePaso (){
     paso(ultimoEstado, estados);
     console.debug(ultimoEstado, estados);
     const pasoControl = document.getElementById("paso");
-    pasoControl.stepUp(); // Llama a oninputPaso
+    pasoControl.value = estados.length;
+    oninputPaso();
+    if (ultimoEstado.seAcabo()){
+        deshabilitarSiguientePaso();
+    }
 }
 
 window.addEventListener('load', () => {
     Array.from(document.querySelectorAll("input[id^=relleno]"))
     .forEach(relleno => {
-        relleno.addEventListener('input', onCalcular);
+        relleno.addEventListener('input', iniciar);
     });
+    iniciar();
 });
